@@ -20,7 +20,7 @@ namespace RementisApi.Controllers
 
             if (_context.Agendadata.Count() == 0)
             {
-                _context.Agendadata.Add(new Agendadata { CostumerId = 1 });
+                _context.Agendadata.Add(new Agendadata { Description = "test" });
                 _context.SaveChanges();
             }
         }
