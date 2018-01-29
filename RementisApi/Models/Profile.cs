@@ -14,5 +14,7 @@ namespace RementisApi.Models
         public string Achternaam { get; set; }
         public string Geslacht { get; set; }
 
+        
+
     }
 }

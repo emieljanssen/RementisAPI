@@ -54,6 +54,9 @@ namespace RementisApi.Controllers
                 return BadRequest();
             }
 
+            var agendaitemhighid = _context.Agendadata.LastOrDefault();
+            item.MessageId = agendaitemhighid.MessageId + 1;
+
             _context.Agendadata.Add(item);
             _context.SaveChanges();
 

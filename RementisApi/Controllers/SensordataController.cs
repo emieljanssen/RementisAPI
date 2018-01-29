@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using RementisApi.Models;
 
@@ -53,9 +52,17 @@ namespace RementisApi.Controllers
                 return BadRequest();
             }
 
-            //var lastID = _context.SensorItems.LastOrDefault(t => t.Id > item.Id);
-            //item.Id = lastID.Id;
-            
+
+            //check of er een status van agendaitem moet worden ge-update
+            //verander timestamp, starttime en endtime naar Time value!
+            var agendaitem = _context.Agendadata.FirstOrDefault(t => t.StartTime < item.Timestamp && t.EndTime > item.Timestamp);
+            agendaitem.State = "succes";
+
+            //Geef sensoritem een id
+            var sensoritemhighid = _context.SensorItems.LastOrDefault();
+            item.Id = sensoritemhighid.Id +1;
+
+            _context.Agendadata.Update(agendaitem);
             _context.SensorItems.Add(item);
             _context.SaveChanges();
 
@@ -77,7 +84,7 @@ namespace RementisApi.Controllers
                 return NotFound();
             }
 
-            sensordata.KlantId = item.KlantId;
+            sensordata.CostumerId = item.CostumerId;
             sensordata.SensorId = item.SensorId;
             sensordata.Timestamp = item.Timestamp;
             sensordata.Value = item.Value;
