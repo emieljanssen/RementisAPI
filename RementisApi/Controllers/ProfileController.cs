@@ -70,10 +70,17 @@ namespace RementisApi.Controllers
                                 new JProperty("LastName", p.Achternaam),
                                 new JProperty("Gender", p.Geslacht),
                                 new JProperty("Agenda",
-                                    new JObject(
+                                    new JArray(
+                                        from a in items
+                                        where a.CostumerId == p.CustomerId
+                                        group a by a.StartDate
+                                        into g
+                                        orderby g.Count() descending
+                                        select new JObject(
+                                            new JProperty("Date", g.FirstOrDefault().StartDate.ToString("MM-dd-yyyy").Replace('-','/')),
                                             new JProperty("Items",
                                                 new JArray(
-                                                    from i in items
+                                                    from i in g
                                                     where i.CostumerId == p.CustomerId
                                                     orderby i.StartTime
                                                     select new JObject(
@@ -89,6 +96,7 @@ namespace RementisApi.Controllers
                                                     )
                                                 )
                                             )
+                                         )
                                      )
                                 )
                            )
