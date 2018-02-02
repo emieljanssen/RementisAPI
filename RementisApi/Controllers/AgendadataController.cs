@@ -56,6 +56,7 @@ namespace RementisApi.Controllers
 
             var agendaitemhighid = _context.Agendadata.LastOrDefault();
             item.MessageId = agendaitemhighid.MessageId + 1;
+            item.State = "pending";
 
             _context.Agendadata.Add(item);
             _context.SaveChanges();
@@ -79,6 +80,14 @@ namespace RementisApi.Controllers
             }
 
             //update alle values
+            agendadata.Priority = item.Priority;
+            agendadata.Description = item.Description;
+            agendadata.EndDate = item.EndDate;
+            agendadata.StartDate = item.StartDate;
+            agendadata.EndTime = item.EndTime;
+            agendadata.StartTime = item.StartTime;
+            agendadata.Title = item.Title;
+            
 
             _context.Agendadata.Update(agendadata);
             _context.SaveChanges();

@@ -60,16 +60,16 @@ namespace RementisApi.Controllers
             //create the body with all profiles
             Object Profiles =
                 new JObject(
-                    new JProperty("Profile",
+                    new JProperty("profile",
                         new JArray(
                             from p in allprofiles
                             orderby p.CustomerId
                             select new JObject(
-                                new JProperty("Id", p.CustomerId),
-                                new JProperty("FirstName", p.Voornaam),
-                                new JProperty("LastName", p.Achternaam),
-                                new JProperty("Gender", p.Geslacht),
-                                new JProperty("Agenda",
+                                new JProperty("customerId", p.CustomerId),
+                                new JProperty("firstName", p.Voornaam),
+                                new JProperty("lastName", p.Achternaam),
+                                new JProperty("gender", p.Geslacht),
+                                new JProperty("agenda",
                                     new JArray(
                                         from a in items
                                         where a.CostumerId == p.CustomerId
@@ -77,22 +77,23 @@ namespace RementisApi.Controllers
                                         into g
                                         orderby g.Count() descending
                                         select new JObject(
-                                            new JProperty("Date", g.FirstOrDefault().StartDate.ToString("MM-dd-yyyy").Replace('-','/')),
-                                            new JProperty("Items",
+                                            new JProperty("date", g.FirstOrDefault().StartDate.ToString("MM-dd-yyyy").Replace('-','/')),
+                                            new JProperty("items",
                                                 new JArray(
                                                     from i in g
                                                     where i.CostumerId == p.CustomerId
                                                     orderby i.StartTime
                                                     select new JObject(
-                                                        new JProperty("Title", i.Title),
-                                                        new JProperty("CustomerId", i.CostumerId),
-                                                        new JProperty("Description", i.Description),
-                                                        new JProperty("StartDate", i.StartDate),
-                                                        new JProperty("EndDate", i.EndDate),
-                                                        new JProperty("StartTime", i.StartTime),
-                                                        new JProperty("EndTime", i.EndTime),
-                                                        new JProperty("Priority", i.Priority),
-                                                        new JProperty("State", i.State)
+                                                        new JProperty("messageId", i.MessageId),
+                                                        new JProperty("title", i.Title),
+                                                        new JProperty("customerId", i.CostumerId),
+                                                        new JProperty("description", i.Description),
+                                                        new JProperty("startDate", i.StartDate),
+                                                        new JProperty("endDate", i.EndDate),
+                                                        new JProperty("startTime", i.StartTime),
+                                                        new JProperty("endTime", i.EndTime),
+                                                        new JProperty("priority", i.Priority),
+                                                        new JProperty("state", i.State)
                                                     )
                                                 )
                                             )
@@ -103,48 +104,6 @@ namespace RementisApi.Controllers
                          )
                      )
                   );
-
-//            profiles: [
-//    {
-//      customerId: 1,
-//      voornaam: "Herbert",
-//      achternaam: "Kartoffelsalat",
-//      geslacht: "male",
-//      agenda: [
-//        {
-//                    date: "11-01-18",
-//          items: [
-//            {
-//                        messageId: 1,
-//              title: "Medicatie innemen",
-//              customerId: 1,
-//              description: "Neem 5 paracetamol en 2 ibuprofen",
-//              startTime: "11:00",
-//              endTime: "11:00",
-//              priority: true,
-//              state: agendaPointStatesEnum.failed
-//            },
-//            {
-//                        messageId: 4,
-//              title: "Medicatie innemen",
-//              customerId: 1,
-//              description: "Neem 5 paracetamol en 2 ibuprofen",
-//              startTime: "11:00",
-//              endTime: "11:00",
-//              priority: true,
-//              state: agendaPointStatesEnum.failed
-//            },
-//          ]
-//        }
-//      ]
-//    }
-//  ]
-//
-//  failed: "failed",
-//  pending: "pending",
-//  completed: "completed"
-//  male: "male",
-//  female: "female",
             
 
 

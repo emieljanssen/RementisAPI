@@ -16,7 +16,7 @@ namespace RementisApi.Models
         public int CostumerId { get; set; }
         public string Value { get; set; }
 
-        public TimeSpan Timestamp { get; set; }
+        public DateTime Timestamp { get; set; }
 
         public string Active { get; set; }
     }

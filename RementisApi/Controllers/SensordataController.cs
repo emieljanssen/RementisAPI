@@ -52,11 +52,12 @@ namespace RementisApi.Controllers
                 return BadRequest();
             }
 
-
+            //item.Timestamp.ToString("HH:mm:ss");
+            TimeSpan TS = item.Timestamp.TimeOfDay;
             //check of er een status van agendaitem moet worden ge-update
             //verander timestamp, starttime en endtime naar Time value!
-            var agendaitem = _context.Agendadata.FirstOrDefault(t => t.StartTime < item.Timestamp && t.EndTime > item.Timestamp);
-            agendaitem.State = "succes";
+            var agendaitem = _context.Agendadata.FirstOrDefault(t => t.StartTime < TS && t.EndTime > TS && t.StartDate.Date <= item.Timestamp.Date && t.EndDate.Date >= item.Timestamp.Date && t.CostumerId == item.CostumerId);
+            agendaitem.State = "completed";
 
             //Geef sensoritem een id
             var sensoritemhighid = _context.SensorItems.LastOrDefault();
