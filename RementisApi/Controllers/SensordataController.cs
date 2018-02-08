@@ -57,13 +57,15 @@ namespace RementisApi.Controllers
             //check of er een status van agendaitem moet worden ge-update
             //verander timestamp, starttime en endtime naar Time value!
             var agendaitem = _context.Agendadata.FirstOrDefault(t => t.StartTime < TS && t.EndTime > TS && t.StartDate.Date <= item.Timestamp.Date && t.EndDate.Date >= item.Timestamp.Date && t.CostumerId == item.CostumerId);
-            agendaitem.State = "completed";
-
+            if (agendaitem != null) { 
+                agendaitem.State = "completed";
+                _context.Agendadata.Update(agendaitem);
+            }
             //Geef sensoritem een id
             var sensoritemhighid = _context.SensorItems.LastOrDefault();
             item.Id = sensoritemhighid.Id +1;
 
-            _context.Agendadata.Update(agendaitem);
+            
             _context.SensorItems.Add(item);
             _context.SaveChanges();
 

@@ -42,20 +42,23 @@ namespace RementisApi.Controllers
             DateTime thisDay = DateTime.Today;
 
             //Check if agenda item failed
-            foreach (Agendadata a in items) {
-                if (a.EndTime < Time && a.EndDate < thisDay && a.State != "completed")
+            foreach (Agendadata a in items)
+            {
+                if (a.State != "completed")
                 {
-                    a.State = "failed";
-                    _context.Agendadata.Update(a);
-                    _context.SaveChanges();
+                    if ((a.EndDate < thisDay) ||
+                        (a.EndDate == thisDay && a.EndTime < Time))
+                    {
+                        a.State = "failed";
+                        _context.Agendadata.Update(a);
+                        _context.SaveChanges();
+                    }
                 }
                 else
                 {
                     //already completed
                 }
             }
-
-
 
             //create the body with all profiles
             Object Profiles =
@@ -77,7 +80,7 @@ namespace RementisApi.Controllers
                                         into g
                                         orderby g.Count() descending
                                         select new JObject(
-                                            new JProperty("date", g.FirstOrDefault().StartDate.ToString("MM-dd-yyyy").Replace('-','/')),
+                                            new JProperty("date", g.FirstOrDefault().StartDate.ToString("MM-dd-yyyy").Replace('-', '/')),
                                             new JProperty("items",
                                                 new JArray(
                                                     from i in g
@@ -104,7 +107,7 @@ namespace RementisApi.Controllers
                          )
                      )
                   );
-            
+
 
 
             return new JsonResult(Profiles);
